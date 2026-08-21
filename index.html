@@ -146,6 +146,39 @@ a{color:inherit;text-decoration:none}
 .chap__t{padding:72px 56px;display:flex;flex-direction:column;justify-content:center;gap:20px}
 .chap__f{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:8px}
 
+/* ═══ fiche produit : présentation centrée, barre d'achat horizontale ═══ */
+.fp__tete{text-align:center;padding:52px 44px 0;max-width:60ch;margin:0 auto}
+.fp__tete h1{margin-top:14px}
+.fp__tete .fp__ligne{font-family:var(--serif);font-style:italic;font-size:19px;color:var(--encre2);margin-top:18px}
+.fp__photo{position:relative;background:var(--blanc);margin:36px 0 0;border-top:1px solid var(--filet);border-bottom:1px solid var(--filet)}
+.fp__photo .ph{aspect-ratio:16/9;background-size:contain;background-repeat:no-repeat}
+.fp__vues{display:flex;gap:10px;justify-content:center;padding:16px 0 20px}
+.fp__vues button{width:56px;height:56px;border:1px solid var(--filet);padding:0;background-size:cover;background-position:center}
+.fp__vues button.on{border-color:var(--encre);box-shadow:inset 0 0 0 1px var(--encre)}
+
+.fp__achat{display:grid;grid-template-columns:1.25fr 1fr auto;gap:44px;align-items:end;
+ padding:36px 44px;background:var(--blanc);border-bottom:1px solid var(--filet)}
+.fp__lab{font-size:12px;letter-spacing:.11em;text-transform:uppercase;color:var(--encre2);font-weight:600;margin-bottom:12px;display:block}
+.tab{width:100%;border-collapse:collapse}
+.tab tr{border-bottom:1px solid var(--filet);cursor:pointer;transition:background var(--m-touche) var(--e-touche)}
+.tab tr:hover{background:var(--papier)}
+.tab tr.on{background:var(--encre);color:var(--papier)}
+.tab td{padding:11px 10px;font-size:15px}
+.tab td:first-child{font-family:var(--serif);font-size:18px}
+.tab td:last-child{text-align:right;font-variant-numeric:tabular-nums}
+.tab tr.on td em{color:rgba(247,244,234,.75)}
+.tab td em{font-style:normal;font-size:13px;color:var(--encre2);display:block}
+.fp__ret{border:1px solid var(--arete);padding:14px 16px;font-size:14px}
+.fp__ajout{display:flex;flex-direction:column;gap:12px;min-width:270px}
+.fp__prix{font-family:var(--serif);font-size:34px;line-height:1;font-variant-numeric:tabular-nums;text-align:right}
+
+.fp__notice{display:grid;grid-template-columns:repeat(3,1fr);gap:44px;padding:52px 44px;border-bottom:1px solid var(--filet)}
+.fp__notice h3{font-size:12px;letter-spacing:.11em;text-transform:uppercase;color:var(--or);font-weight:600;margin-bottom:14px}
+.fp__notice p{font-size:15px;color:var(--encre2);line-height:1.65}
+.fp__hist{display:flex;align-items:center;gap:26px;padding:34px 44px;background:var(--blanc);border-bottom:1px solid var(--filet)}
+.fp__hist b{font-family:var(--serif);font-size:44px;color:var(--or);line-height:1;flex:none}
+.fp__hist p{font-size:17px;color:var(--encre2);max-width:80ch}
+
 /* ═══ archive ═══ */
 .arch{display:grid;grid-template-columns:0.72fr 1fr;align-items:center;gap:52px;padding:72px 56px;border-bottom:1px solid var(--filet)}
 .arch .ph{aspect-ratio:3/4}
@@ -375,6 +408,13 @@ a{color:inherit;text-decoration:none}
 @media(max-width:1100px){
  .nav{display:none}.menu-mob{display:block}
  .bnd,.duo,.fiche,.modale__g,.une,.prov,.ouv,.chap,.arch{grid-template-columns:1fr}
+ .fp__achat{grid-template-columns:1fr;gap:26px;align-items:stretch;padding:28px 22px}
+ .fp__prix{text-align:left}
+ .fp__ajout{min-width:0}
+ .fp__notice{grid-template-columns:1fr;gap:28px;padding:36px 22px}
+ .fp__tete{padding:36px 22px 0}
+ .fp__hist{padding:26px 22px;flex-wrap:wrap;gap:14px}
+ .fp__photo .ph{aspect-ratio:4/3}
  .ouv__t,.chap__t{padding:52px 22px}
  .ouv__t::before,.ouv__t::after{left:22px;right:22px}
  .ouv .ph,.chap .ph{min-height:420px}
@@ -961,52 +1001,59 @@ var ACC=[true,false,false,false];
 function bl(i,t,corps){var o=ACC[i];
  return '<div><button data-acc="'+i+'" aria-expanded="'+(o?'true':'false')+'" class="'+(o?'acc--on':'')+'">'+t+'<i></i></button>'+
   '<div class="corps'+(o?' on':'')+'">'+corps+'</div></div>';}
+var VUEP=0;
 function vFiche(){
  var c=F,fi=c._fi==null?0:c._fi,f=c.f[fi],d=dispoC(c),L=LIEUX[S.lieu];
- var h='<div style="padding:22px 48px 0" class="t14 dim"><button class="lien" data-retour="1">Nos pâtisseries</button> · '+
-   (c.col==='saison'?'Créations de saison':'Les intemporelles')+' · '+c.n+'</div>';
- h+='<div class="fiche"><div class="fiche__m">'+ph(c.im,c.alt)+''+ph(c.im2,c.alt2)+'</div><div class="fiche__a">';
- h+='<span class="t12 dim">'+(c.col==='historiques'?'Recette historique':(c.col==='saison'?'Création de saison':'Gâteau de voyage'))+'</span>';
- h+='<h1 class="g54" style="margin-top:12px">'+c.n+'</h1>';
- h+='<p class="t16 dim" style="margin-top:18px">'+c.d+'</p>';
- h+='<div class="prix"><span class="g38 num">'+pr(f[1])+'</span><span class="t14 dim">'+f[0]+'</span></div>';
- h+='<div class="lab">Format<em>'+(c.f.length>1?c.f.length+' formats, une seule page':'un seul format')+'</em></div><div class="fmts" role="radiogroup" aria-label="Format">';
- c.f.forEach(function(x,i){h+='<button class="fmt'+(i===fi?' on':'')+(d?'':' att')+'" data-fmt="'+i+'" role="radio" aria-checked="'+(i===fi?'true':'false')+'">'+
-  '<b>'+x[0]+'</b><span class="num">'+pr(x[1])+'</span>'+''+'</button>';});
- h+='</div>';
- if(!d)h+='<p class="t14 dim" style="margin-top:12px">Cette création est fraîche : elle ne s’expédie pas. Elle reste disponible en retrait gratuit et en livraison à Paris.</p>'+
-  '<p style="margin-top:8px"><button class="lien sais" style="font-weight:600" id="prendre">Passer au retrait en boutique</button></p>';
- h+='<div class="lab">'+(S.mode==='retrait'?'Retrait':(S.mode==='livraison'?'Livraison':'Expédition'))+'</div>';
- h+='<div class="retrait"><div><div class="t16"><b>'+JNOM[S.jour]+' '+S.jour+' août</b>'+(S.mode==='retrait'?', '+S.cren:'')+'</div>'+
-  '<div class="t14 dim">'+(S.mode==='retrait'?L.n+' — '+L.a:(S.mode==='livraison'?'Paris intra-muros — 23,21 €, offerte dès 90 €':'Expédition en France — 12,90 €'))+'</div></div>'+
-  '<button style="margin-left:auto" class="t14" data-service="fiche">Modifier</button></div>';
- h+='<div style="display:flex;gap:12px;margin-top:24px"><div class="qte"><button data-q="-1" aria-label="Diminuer la quantité">−</button><b id="qv">'+QTE+'</b><button data-q="1" aria-label="Augmenter la quantité">+</button></div>'+
-  '<button class="b" style="flex:1" id="add"'+(d?'':' disabled')+'>'+(d?'Ajouter — <span class="num">'+pr(f[1]*QTE)+'</span>':'Indisponible à l’expédition')+'</button></div>';
- h+='<p class="t14 dim" style="margin-top:14px">Annulation gratuite jusqu’à vingt-quatre heures avant le retrait. Ce geste commercial n’est pas un droit de rétractation : les denrées périssables en sont exclues (article L221-28 4°).</p>';
- h+='<div class="acc">'+bl(0,'Composition',c.c)+
-  bl(1,'Allergènes','<p>Allergènes : '+c.a.join(', ')+'.</p>'+
-   '<div class="avert"><b>Traces éventuelles : non précisées sur les fiches actuelles.</b> Tout est confectionné dans le même laboratoire, rue Montorgueil. Ces informations aident au choix, elles ne valent pas garantie d’absence.</div>')+
-  bl(2,'Conservation',c.cons)+
-  bl(3,'Retrait, livraison et expédition','Retrait gratuit dans nos boutiques, disponible sous 24 h, sur rendez-vous entre 12 h et 19 h 30. Livraison à Paris et en proche banlieue, 14,90 €, offerte dès 90 €. Expédition en France et en Europe réservée aux produits non frais.')+
-  '</div></div></div>';
- h+='<section class="prov rev"><div><h2 class="g38">Confectionné rue Montorgueil</h2>'+
-  '<p class="t18 dim" style="margin-top:16px">Depuis 1730, tout est réalisé derrière la boutique historique. C’est là que Nicolas Stohrer proposait déjà son célèbre baba, qui fait encore aujourd’hui la renommée de la maison.</p>'+
-  '<p class="t16 dim" style="margin-top:18px">'+c.c+'</p></div>'+
-  ph('maison2','L’atelier de la rue Montorgueil','','aspect-ratio:4/3')+'</section>';
- var au=C.filter(function(x){return x.id!==c.id&&x.col===c.col;}).slice(0,4);
- h+='<section class="bande rev"><div class="bande__h"><h2 class="g38">'+(c.col==='historiques'?'Les autres historiques':(c.col==='saison'?'Les autres créations de saison':'Les autres gâteaux de voyage'))+'</h2></div>'+
-  '<div class="g4">'+au.map(carte).join('')+'</div></section>';
+ var vues=[c.im].concat(c.im2!==c.im?[c.im2]:[]);
+ var h='<div style="padding:22px 44px 0" class="t14 dim"><button class="lien" data-retour="1">Nos pâtisseries</button> · '+
+   (c.col==='historiques'?'Les historiques':(c.col==='saison'?'Créations de saison':'Gâteaux de voyage'))+' · '+c.n+'</div>';
+
+ /* 1 · présentation centrée */
+ h+='<div class="fp__tete"><span class="t12 dim">'+(c.col==='historiques'?'Recette historique':(c.col==='saison'?'Création de saison':'Gâteau de voyage'))+'</span>'+
+  '<h1 class="g54">'+c.n+'</h1><p class="fp__ligne">'+c.d+'</p></div>';
+ h+='<div class="fp__photo">'+ph(vues[VUEP]||vues[0],c.alt,'','')+'</div>';
+ if(vues.length>1)h+='<div class="fp__vues">'+vues.map(function(v,k){
+   return '<button data-vuep="'+k+'" class="ph-'+v+(k===VUEP?' on':'')+'" aria-label="Vue '+(k+1)+'"></button>';}).join('')+'</div>';
+
+ /* 2 · barre d achat horizontale : le tableau des formats, le retrait, le prix */
+ h+='<div class="fp__achat"><div><span class="fp__lab">Format</span><table class="tab"><tbody>'+
+  c.f.map(function(x,k){return '<tr data-fmt="'+k+'"'+(k===fi?' class="on"':'')+'><td>'+x[0]+
+    (x[3]==='partage'?'<em>'+x[2]+' parts</em>':'')+'</td><td class="num">'+pr(x[1])+'</td></tr>';}).join('')+
+  '</tbody></table></div>';
+ h+='<div><span class="fp__lab">'+(S.mode==='retrait'?'Retrait':(S.mode==='livraison'?'Livraison':'Expédition'))+'</span>'+
+  '<div class="fp__ret"><b>'+(S.mode==='expedition'?'France et Europe':JNOM[S.jour]+' '+S.jour+' août'+(S.mode==='retrait'?', '+S.cren:''))+'</b>'+
+  '<div class="t14 dim" style="margin-top:5px">'+(S.mode==='retrait'?L.n:(S.mode==='livraison'?'Paris et proche banlieue — 14,90 €':'Produits non frais uniquement — 9,90 €'))+'</div>'+
+  '<button class="lien" style="margin-top:8px" data-service="fiche">Modifier</button></div>'+
+  (d?'':'<p class="t14" style="margin-top:12px;color:var(--saison)">Création fraîche : elle ne s’expédie pas. <button class="lien" style="font-weight:600;color:inherit" id="prendre">Passer au retrait</button></p>')+
+  '</div>';
+ h+='<div class="fp__ajout"><span class="fp__prix num" id="fp-prix">'+pr(f[1]*QTE)+'</span>'+
+  '<div style="display:flex;gap:10px"><div class="qte"><button data-q="-1" aria-label="Diminuer">−</button><b id="qv">'+QTE+'</b><button data-q="1" aria-label="Augmenter">+</button></div>'+
+  '<button class="b" style="flex:1" id="add"'+(d?'':' disabled')+'>'+(d?'Ajouter':'Indisponible')+'</button></div></div></div>';
+
+ /* 3 · la notice, entièrement visible : rien derrière un accordéon */
+ h+='<div class="fp__notice"><div><h3>Composition</h3><p>'+c.c+'</p></div>'+
+  '<div><h3>Allergènes</h3><p>'+c.a.join(', ')+'.</p>'+
+  '<p style="margin-top:10px;font-size:13px">Traces éventuelles non précisées sur les fiches actuelles : tout est confectionné dans le même laboratoire, rue Montorgueil.</p></div>'+
+  '<div><h3>Conservation</h3><p>'+c.cons+'</p>'+
+  '<p style="margin-top:10px;font-size:13px">Retrait gratuit sous 24 h, sur rendez-vous entre 12 h et 19 h 30.</p></div></div>';
+
+ /* 4 · le millésime, seulement sur les recettes historiques */
+ if(c.col==='historiques')h+='<div class="fp__hist"><b>1730</b>'+
+  '<p>Recette du répertoire de la maison, réalisée rue Montorgueil depuis sa fondation par Nicolas Stohrer, pâtissier du roi Louis XV.</p></div>';
+
+ /* 5 · la suite de la carte, en liste — pas une grille de vignettes */
+ var au=C.filter(function(x){return x.id!==c.id&&x.col===c.col;}).slice(0,5);
+ if(au.length)h+='<section class="bande rev"><div class="bande__h"><h2 class="g38">La suite de la carte</h2></div>'+
+  '<div class="carte">'+au.map(ligneCarte).join('')+'</div></section>';
+
  document.getElementById('v-fiche').innerHTML=h;
  revele('#v-fiche');
 }
 function majFiche(){
  var c=F,f=c.f[c._fi],r=document.getElementById('v-fiche');
- r.querySelectorAll('.fmt').forEach(function(b,i){var on=i===c._fi;
-  b.classList.toggle('on',on);b.setAttribute('aria-checked',on?'true':'false');});
- chiffre(r.querySelector('.prix .num'),pr(f[1]));
- var lb=r.querySelector('.prix .t14');if(lb)lb.textContent=f[0];
+ r.querySelectorAll('.tab tr').forEach(function(tr,i){tr.classList.toggle('on',i===c._fi);});
  chiffre(r.querySelector('#qv'),String(QTE));
- chiffre(r.querySelector('#add .num'),pr(f[1]*QTE));
+ chiffre(r.querySelector('#fp-prix'),pr(f[1]*QTE));
 }
 function vMaison(){
  var h='<div class="chapeau rev"><h1 class="g54">La plus ancienne pâtisserie de Paris</h1>'+
@@ -1222,7 +1269,7 @@ function appliquerService(){
  else if(ORIG==='panier'){majPanier();ouvre(document.getElementById('tiroir'));}
 }
 document.addEventListener('click',function(ev){
- var t=ev.target.closest('button, a[data-fiche]');if(!t)return;
+ var t=ev.target.closest('button, a[data-fiche], tr[data-fmt]');if(!t)return;
  if(t.tagName==='A')ev.preventDefault();
  var D=t.dataset;
 
@@ -1242,7 +1289,7 @@ document.addEventListener('click',function(ev){
   if(D.go==='collection')vCollection();if(D.go==='maison')vMaison();if(D.go==='pro')vPro();
   ferme();DERNIER=null;naviguer(D.go);return;}
 
- if(D.fiche){
+ if(D.fiche){VUEP=0;
   var src=t.querySelector('.crea__im .ph:not(.b2)')||t.querySelector('.ph');
   RETOUR={vue:vueCourante(),id:D.fiche};
   F=T_(D.fiche);F._fi=0;QTE=1;ACC=[true,false,false,false];
@@ -1264,6 +1311,7 @@ document.addEventListener('click',function(ev){
  if(D.vuec){VUEC=D.vuec;vCollection();return;}
 
  if(D.fmt!=null&&F){var k=+D.fmt;if(k===F._fi)return;F._fi=k;QTE=1;majFiche();return;}
+ if(D.vuep!=null&&F){VUEP=+D.vuep;vFiche();return;}
  if(D.q&&F){var av=QTE;QTE=Math.max(1,QTE+(+D.q));if(QTE===av)return;majFiche();return;}
 
  if(t.id==='add'&&F){
