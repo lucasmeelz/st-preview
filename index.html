@@ -113,6 +113,43 @@ a{color:inherit;text-decoration:none}
 .bnd__t{text-align:center;color:#fff;padding:80px 32px;max-width:42ch;display:grid;gap:22px;justify-items:center}
 .bnd__t .t12{color:rgba(255,255,255,.86)}
 
+/* ═══ ouverture en cartouche — pas de photo plein cadre ═══ */
+.ouv{display:grid;grid-template-columns:1fr 0.82fr;border-bottom:1px solid var(--filet);background:var(--blanc)}
+.ouv__t{padding:76px 56px;display:flex;flex-direction:column;justify-content:center;gap:24px;position:relative}
+.ouv__t::before{content:"";position:absolute;left:56px;right:56px;top:52px;height:1px;background:var(--or)}
+.ouv__t::after{content:"";position:absolute;left:56px;right:56px;bottom:52px;height:1px;background:var(--or)}
+.ouv .ph{min-height:620px}
+.millesime{font-family:var(--serif);font-size:clamp(56px,8vw,104px);line-height:.9;letter-spacing:.02em;color:var(--or)}
+.ouv__t h1{max-width:15ch}
+.ouv__t p{max-width:44ch}
+
+/* ═══ la carte — une liste, pas une grille ═══ */
+.carte{border-top:1px solid var(--encre)}
+.carte__l{display:grid;grid-template-columns:64px 1fr auto;gap:20px;align-items:center;width:100%;
+ padding:16px 0;border-bottom:1px solid var(--filet);text-align:left;color:inherit;
+ transition:background var(--m-touche) var(--e-touche)}
+.carte__l:hover{background:var(--blanc)}
+.carte__l .ph{aspect-ratio:1}
+.carte__n{display:flex;align-items:baseline;gap:12px;min-width:0}
+.carte__n b{font-family:var(--serif);font-size:21px;font-weight:400;white-space:nowrap}
+.carte__n i{flex:1;border-bottom:1px dotted var(--arete);opacity:.55;transform:translateY(-5px);min-width:24px}
+.carte__n em{font-style:normal;font-size:14px;color:var(--encre2);white-space:nowrap}
+.carte__p{font-size:17px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.vue-bascule{display:flex;gap:0;border:1px solid var(--arete);margin-left:auto}
+.vue-bascule button{padding:0 16px;min-height:44px;font-size:14px;color:var(--encre2);border-right:1px solid var(--arete)}
+.vue-bascule button:last-child{border-right:0}
+.vue-bascule button.on{background:var(--encre);color:var(--papier)}
+
+/* ═══ chapitre : on achète depuis le récit ═══ */
+.chap{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--filet);border-bottom:1px solid var(--filet);background:var(--blanc)}
+.chap .ph{min-height:560px}
+.chap__t{padding:72px 56px;display:flex;flex-direction:column;justify-content:center;gap:20px}
+.chap__f{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:8px}
+
+/* ═══ archive ═══ */
+.arch{display:grid;grid-template-columns:0.72fr 1fr;align-items:center;gap:52px;padding:72px 56px;border-bottom:1px solid var(--filet)}
+.arch .ph{aspect-ratio:3/4}
+
 /* ═══ sections ═══ */
 .bande{padding:64px 44px;border-bottom:1px solid var(--filet)}
 .bande__h{display:flex;align-items:baseline;gap:16px;margin-bottom:34px;flex-wrap:wrap}
@@ -337,7 +374,11 @@ a{color:inherit;text-decoration:none}
 
 @media(max-width:1100px){
  .nav{display:none}.menu-mob{display:block}
- .bnd,.duo,.fiche,.modale__g,.une,.prov{grid-template-columns:1fr}
+ .bnd,.duo,.fiche,.modale__g,.une,.prov,.ouv,.chap,.arch{grid-template-columns:1fr}
+ .ouv__t,.chap__t{padding:52px 22px}
+ .ouv__t::before,.ouv__t::after{left:22px;right:22px}
+ .ouv .ph,.chap .ph{min-height:420px}
+ .arch{padding:52px 22px;gap:30px}
  .g4,.mega__in,.pied__g{grid-template-columns:1fr 1fr}
  .grille{grid-template-columns:1fr 1fr}
  .fiche__a{border-left:0;border-top:1px solid var(--filet)}
@@ -396,6 +437,14 @@ a{color:inherit;text-decoration:none}
  .chapeau{padding:40px 18px 22px}
  .fiche__a{padding:28px 18px 44px}
  .duo__t{padding:40px 18px}
+ .ouv__t,.chap__t{padding:44px 18px}
+ .ouv__t::before,.ouv__t::after{left:18px;right:18px}
+ .arch{padding:44px 18px}
+ .carte__l{grid-template-columns:52px 1fr auto;gap:14px}
+ .carte__n{flex-wrap:wrap}
+ .carte__n b{font-size:18px}
+ .carte__n i{display:none}
+ .chap__f{grid-template-columns:1fr}
  .prov{padding:40px 18px;gap:28px}
  .pied{padding:48px 18px 32px}
  .pied__g{gap:34px}
@@ -427,7 +476,6 @@ a{color:inherit;text-decoration:none}
 .ph-baba{background-image:url(img/baba.webp)}
 .ph-babachantilly{background-image:url(img/babachantilly.webp)}
 .ph-bocal{background-image:url(img/bocal.webp)}
-.ph-boutique{background-image:url(img/boutique.webp)}
 .ph-boutique2{background-image:url(img/boutique2.webp)}
 .ph-caracrousti{background-image:url(img/caracrousti.webp)}
 .ph-caracrousti2{background-image:url(img/caracrousti2.webp)}
@@ -629,7 +677,8 @@ C.forEach(function(c){
 });
 
 var S={mode:'retrait',lieu:0,jour:22,cren:'12 h – 14 h'},T={mode:'retrait',lieu:0,jour:22,cren:'12 h – 14 h'};
-var PANIER=[],FIL=[],COL='saison',F=null,QTE=1,ORIG=null,OPT=[],NEUF=null,RETOUR=null,DERNIER=null,TMSG=null;
+var VUEC='carte';
+var PANIER=[],FIL=[],COL='historiques',F=null,QTE=1,ORIG=null,OPT=[],NEUF=null,RETOUR=null,DERNIER=null,TMSG=null;
 var RM=matchMedia('(prefers-reduced-motion:reduce)');
 var E_PASS='cubic-bezier(.62,.02,.2,1)',E_TOUCHE='cubic-bezier(.2,.6,.4,1)',E_GESTE='cubic-bezier(.22,.7,.3,1)';
 var D_PASS=560,D_RETOUR=450,D_SORTIE=180,PAS=60;
@@ -790,24 +839,49 @@ function carr(id,titre,sous,l,lien){
   '<div class="car"><div class="car__p" id="car-'+id+'">'+l.map(carte).join('')+'</div></div>'+
   (lien?'<div style="margin-top:30px"><button class="b b--o" data-go="collection" data-col="'+lien[1]+'">'+lien[0]+'</button></div>':'')+
   '</section>';}
+function ligneCarte(c){
+ var mini=c.min, fmts=c.f.length>1?c.f.length+' formats':c.f[0][0];
+ return '<a class="carte__l" href="#" data-fiche="'+c.id+'">'+ph(c.im,c.alt)+
+  '<span class="carte__n"><b>'+c.n+'</b><i></i><em>'+fmts+(dispoC(c)?'':' · ne s’expédie pas')+'</em></span>'+
+  '<span class="carte__p">'+(c.f.length>1?'dès ':'')+pr(mini)+'</span></a>';
+}
 function vAccueil(){
  var hist=C.filter(function(c){return c.col==='historiques';}),
-     sais=C.filter(function(c){return c.col==='saison';}),h='';
- h+='<section class="bnd">'+ph('boutique',null)+
-  '<div class="bnd__t"><span class="t12">51 rue Montorgueil, Paris</span>'+
+     sais=C.filter(function(c){return c.col==='saison';}),
+     baba=T_('baba'),h='';
+
+ h+='<section class="ouv"><div class="ouv__t">'+
+  '<span class="millesime">1730</span>'+
   '<h1 class="g54">La plus ancienne pâtisserie de Paris</h1>'+
-  '<p class="t18">Fondée en 1730 par Nicolas Stohrer, pâtissier du roi Louis XV.</p>'+
-  '<button class="b b--blanc" data-go="collection" data-col="historiques">Découvrir les historiques</button></div></section>';
- h+=carr('hist','Les historiques','Le baba au rhum, inventé ici. Le Saint-Honoré, le flan, le kougelhopf — les recettes que la maison réalise depuis presque trois siècles.',hist,['Voir la collection','historiques']);
- h+='<section class="duo rev">'+ph('maison1','Le décor de la boutique historique, classé Monuments Historiques')+
-  '<div class="duo__t"><span class="t12 dim">Notre maison</span>'+
-  '<p class="g38" style="max-width:22ch">Un décor classé, et le meilleur de la pâtisserie classique française.</p>'+
-  '<p class="t18 dim" style="max-width:46ch">Cette institution de la rue Montorgueil a tout d’un mythe : un décor somptueux classé Monuments Historiques, signé par un élève de Paul Baudry, qui a œuvré au décor de l’Opéra Garnier. Un temple du sucré et du salé, où l’on confectionne tout sur place.</p>'+
-  '<div><button class="b b--o" data-go="maison">Notre histoire</button></div></div></section>';
- h+=carr('sais','Les créations de saison','Au gré des humeurs des pâtissières et des pâtissiers, et de leurs inspirations.',sais,['Voir la collection','saison']);
+  '<p class="t18 dim">Fondée rue Montorgueil par Nicolas Stohrer, pâtissier de Stanislas Leszczynski puis du roi Louis XV. Trois siècles plus tard, tout se confectionne encore derrière la boutique.</p>'+
+  '<div style="display:flex;gap:12px;flex-wrap:wrap"><button class="b" data-go="collection" data-col="tout">Voir la carte</button>'+
+  '<button class="b b--o" data-go="maison">Notre histoire</button></div></div>'+
+  ph('maison2','La façade de la boutique historique, 51 rue Montorgueil')+'</section>';
+
+ h+='<section class="bande rev"><div class="bande__h"><div><h2 class="g38">La carte</h2>'+
+  '<p class="t16 dim" style="margin-top:10px;max-width:56ch">Quinze créations. Chacune sur une seule page, tous ses formats réunis.</p></div>'+
+  '<button class="lien" data-go="collection" data-col="tout">Tout voir</button></div>'+
+  '<div class="carte">'+hist.concat(sais).slice(0,9).map(ligneCarte).join('')+'</div></section>';
+
+ h+='<section class="chap rev">'+ph('baba',baba.alt)+'<div class="chap__t">'+
+  '<span class="t12 dim">Le gâteau de la maison</span>'+
+  '<h2 class="g38">Le baba au rhum, inventé ici</h2>'+
+  '<p class="t18 dim">Nicolas Stohrer était le pâtissier de Stanislas Leszczynski, ex-roi de Pologne et père de Marie Leszczynska, future épouse de Louis XV. Il est le créateur du baba au rhum, que la maison réalise sans interruption depuis.</p>'+
+  '<p class="t16 dim">Pâte à baba imbibée de rhum ambré, cerise confite.</p>'+
+  '<div class="chap__f">'+baba.f.map(function(x,k){
+    return '<button class="fmt" data-fiche="baba"><b>'+x[0]+'</b><span class="num">'+pr(x[1])+'</span></button>';}).join('')+'</div>'+
+  '</div></section>';
+
+ h+='<section class="arch rev">'+ph('maison1','Photographies d’archives de la maison Stohrer')+
+  '<div><span class="t12 dim">Depuis trois siècles</span>'+
+  '<h2 class="g38" style="margin-top:14px">Un décor classé Monuments Historiques</h2>'+
+  '<p class="t18 dim" style="margin-top:18px">Le décor somptueux de la boutique, signé par un élève de Paul Baudry — qui a œuvré au décor de l’Opéra Garnier — est classé Monuments Historiques.</p>'+
+  '<p class="t16 dim" style="margin-top:16px">Fidèle aux traditions, la famille Dolfi, qui tient les rênes de la maison, perpétue l’esprit de Stohrer en s’appuyant sur un héritage exceptionnel et le savoir-faire de son équipe de pâtissiers.</p>'+
+  '<div style="margin-top:26px"><button class="b b--o" data-go="maison">Notre histoire</button></div></div></section>';
+
  h+='<section class="bande rev"><div class="bande__h"><h2 class="g38">Nos boutiques</h2>'+
   '<button class="lien" data-go="maison">Les seize adresses</button></div><div class="g4">'+
-  LIEUX.map(function(L,i){return '<div>'+ph(i===0?'boutique2':(i===1?'maison2':(i===2?'maison1':'boutique')),L.n,'','aspect-ratio:4/3')+
+  LIEUX.map(function(L,i){return '<div>'+ph(i===0?'boutique2':(i===1?'maison2':(i===2?'maison1':'kougelhopf')),L.n,'','aspect-ratio:4/3')+
    '<h3 class="g22" style="margin-top:18px">'+L.n+'</h3>'+
    '<p class="t14 dim" style="margin-top:8px">'+L.a+'</p><p class="t14 dim">'+L.h+'</p></div>';}).join('')+
   '</div></section>';
@@ -858,11 +932,14 @@ function vCollection(){
  h+='<div class="chapeau rev"><h1 class="g54">'+t[0]+'</h1><p class="t18 dim" style="margin-top:16px">'+t[1]+'</p></div>';
  h+=barreLiv();
  h+='<div class="filtres">'+FILT.map(function(f){return '<button data-fc="'+f[0]+'" aria-pressed="'+(FIL.indexOf(f[0])>=0?'true':'false')+'" class="'+(FIL.indexOf(f[0])>=0?'on':'')+'">'+f[1]+'</button>';}).join('')+
-  '<span class="t14 dim" style="margin-left:10px">'+l.length+' création'+(l.length>1?'s':'')+' sur '+C.length+'</span></div>';
+  '<span class="t14 dim" style="margin-left:10px">'+l.length+' création'+(l.length>1?'s':'')+' sur '+C.length+'</span>'+
+  '<span class="vue-bascule"><button data-vuec="carte" class="'+(VUEC==='carte'?'on':'')+'">La carte</button>'+
+  '<button data-vuec="grille" class="'+(VUEC==='grille'?'on':'')+'">En images</button></span></div>';
  if(!l.length){h+='<div class="rien"><p class="g38">Aucune création ne réunit ces critères.</p>'+
   '<div style="display:flex;gap:12px;justify-content:center;margin-top:28px;flex-wrap:wrap">'+
   '<button class="b b--o" id="vider-filtres">Effacer les filtres</button>'+
   '<button class="b b--o" data-service="auto">Changer de service</button></div></div>';}
+ else if(VUEC==='carte'){h+='<div style="padding:36px 44px 72px"><div class="carte">'+l.map(ligneCarte).join('')+'</div></div>';}
  else{h+='<div class="grille">';
   l.forEach(function(c,i){
    if(i===0&&l.length>2){h+='<div class="une">'+ph(c.im,c.alt)+'<div>'+
@@ -1184,6 +1261,7 @@ document.addEventListener('click',function(ev){
   vCollection();ferme();
   if(!sur){DERNIER=null;naviguer('collection');}return;}
  if(t.id==='vider-filtres'){FIL=[];vCollection();return;}
+ if(D.vuec){VUEC=D.vuec;vCollection();return;}
 
  if(D.fmt!=null&&F){var k=+D.fmt;if(k===F._fi)return;F._fi=k;QTE=1;majFiche();return;}
  if(D.q&&F){var av=QTE;QTE=Math.max(1,QTE+(+D.q));if(QTE===av)return;majFiche();return;}
