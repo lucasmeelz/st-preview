@@ -74,7 +74,7 @@ a,button{-webkit-tap-highlight-color:rgba(0,46,101,.16)}
 .top__in{display:flex;align-items:center;gap:30px;padding:14px 44px;flex-wrap:wrap}
 .logo{display:flex;flex-direction:column;justify-content:center;min-height:44px;color:var(--encre);flex:none;line-height:1}
 .logo b{display:block;font-family:var(--serif);font-size:26px;letter-spacing:.22em;font-weight:400}
-.logo span{display:block;font-size:9px;letter-spacing:.2em;color:var(--encre2);margin-top:5px;font-weight:600}
+.logo span{display:block;font-size:11px;letter-spacing:.16em;color:var(--encre2);margin-top:5px;font-weight:600}
 .nav{display:flex;gap:28px;font-size:15px;color:var(--encre2)}
 .nav>button{position:relative;padding:8px 0;min-height:44px}
 .nav>button::after{content:"";position:absolute;left:0;right:0;bottom:4px;height:1.5px;background:currentColor;
@@ -294,7 +294,7 @@ a,button{-webkit-tap-highlight-color:rgba(0,46,101,.16)}
 
 .fiche__a{padding:52px 48px 64px;border-left:1px solid var(--filet)}
 .prix{display:flex;align-items:baseline;gap:14px;margin-top:26px;padding-bottom:26px;border-bottom:1px solid var(--filet)}
-.lab{font-size:12px;letter-spacing:.11em;text-transform:uppercase;color:var(--encre2);font-weight:600;
+.lab{font-family:var(--serif);font-style:italic;font-size:18px;letter-spacing:0;color:var(--encre);font-weight:400;
  display:flex;align-items:baseline;gap:10px;margin:30px 0 13px}
 .lab em{font-style:normal;margin-left:auto;text-transform:none;letter-spacing:0;font-size:13px;font-weight:400}
 .fmts{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
@@ -348,9 +348,12 @@ a,button{-webkit-tap-highlight-color:rgba(0,46,101,.16)}
  gap:10px 26px;font-size:13px;color:var(--sur-nuit-2)}
 .pied .logo b{font-size:30px}
 .pied li button,.pied li>span,.pied h4{text-align:left;display:block}
+.pied li button{padding-left:0;padding-right:0}
 .denombre{margin:0 0 4px;padding:0 44px 18px;color:var(--encre2)}
 .lien{padding-block:11px}
 .adr__l ul{list-style:none;margin:34px 0 30px;padding:0}
+.adr.adr--seule{grid-template-columns:1fr}
+.adr--seule .adr__l ul{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 64px}
 .adr{display:grid;grid-template-columns:0.86fr 1fr;gap:0;border-top:1px solid var(--filet)}
 .adr__ph .ph{height:100%;min-height:560px}
 .adr__l{padding:76px 56px}
@@ -561,6 +564,7 @@ adr__l ol{list-style:none;margin:34px 0 30px}
  .denombre{padding:0 18px 16px}
  .carte__z{padding:26px 18px 56px}
  .adr__l{padding:44px 18px}
+ .adr--seule .adr__l ul{grid-template-columns:1fr;gap:0}
  .adr__ph .ph{min-height:300px}
  .chap__f{grid-template-columns:1fr}
  .prov{padding:40px 18px;gap:28px}
@@ -1143,16 +1147,22 @@ function vMaison(){
   '<div class="duo__t nuit">'+
   '<h2 class="g38" style="max-width:24ch;margin-top:18px">Nicolas Stohrer, l’héritage d’un visionnaire</h2>'+
   '<p class="t18 dim" style="max-width:46ch">Pâtissier de Stanislas Leszczynski, ex-roi de Pologne et père de Marie Leszczynska, future épouse de Louis XV. Il est le créateur du baba au rhum. Fidèle aux traditions, la famille Dolfi, qui tient les rênes de la maison, perpétue son esprit en s’appuyant sur un héritage exceptionnel et le savoir-faire de son équipe de pâtissiers.</p></div></section>';
- h+='<section class="bande"><div class="bande__h"><h2 class="g38">Nos boutiques</h2></div><div class="g4">'+
-  LIEUX.map(function(L,i){return '<div>'+ph(i===0?'boutique2':(i===1?'maison2':(i===2?'maison1':'boutique')),L.n,'','aspect-ratio:4/3')+
-   '<h3 class="g22" style="margin-top:18px">'+L.n+'</h3><p class="t14 dim" style="margin-top:8px">'+L.a+'</p><p class="t14 dim">'+L.h+'</p></div>';}).join('')+
+ h+='<section class="adr adr--seule"><div class="adr__l"><h2 class="g38">Nos boutiques</h2>'+
+  '<ul>'+LIEUX.map(function(L){return '<li><b>'+L.n+'</b><span>'+L.a+'</span><span>'+L.h+'</span></li>';}).join('')+'</ul>'+
   '</div></section>'+pied();
  document.getElementById('v-maison').innerHTML=h;revele('#v-maison');
 }
 function vPro(){
+ var gf=C.filter(function(c){return c.f.some(function(x){return /personnes/.test(x[0]);});});
  document.getElementById('v-pro').innerHTML='<div class="chapeau"><h1 class="g54">Commande spéciale</h1>'+
-  '<p class="t18 dim" style="margin-top:18px">Pour un événement, une réception ou un grand format, vous pouvez passer dans nos boutiques ou nous contacter pour une commande quarante-huit heures à l’avance.</p>'+
-  '<div style="margin-top:30px"><button class="b" data-action="contact">Nous contacter</button></div></div>'+pied();
+  '<p class="t18 dim" style="margin-top:18px;max-width:56ch">Pour un événement, une réception ou un grand format, vous pouvez passer dans nos boutiques ou nous contacter pour une commande quarante-huit heures à l’avance.</p>'+
+  '<div style="margin-top:30px"><button class="b" data-action="contact">Nous contacter</button></div></div>'+
+  '<section class="bande"><div class="bande__h"><h2 class="g38">Les créations à partager</h2>'+
+   '<button class="lien" data-go="collection" data-col="tout">Tout le catalogue</button></div>'+
+   '<div class="carte">'+gf.map(ligneCarte).join('')+'</div></section>'+
+  '<section class="adr adr--seule"><div class="adr__l"><h2 class="g38">Où passer commande</h2>'+
+   '<ul>'+LIEUX.map(function(L){return '<li><b>'+L.n+'</b><span>'+L.a+'</span><span>'+L.h+'</span></li>';}).join('')+'</ul>'+
+   '</div></section>'+pied();
  revele('#v-pro');
 }
 function megaHTML(){
@@ -1164,11 +1174,11 @@ function megaHTML(){
    '<li><button data-fc="voyage">Se transporte<i>'+C.filter(function(c){return !c.frais;}).length+'</i></button></li>'+
    '<li><button data-fc="indiv">Individuel<i>'+C.filter(function(c){return c.indiv;}).length+'</i></button></li>'+
    '<li><button data-fc="partager">À partager<i>'+C.filter(function(c){return c.partage;}).length+'</i></button></li>'+
-   '<li><button data-fc="dispo">Disponible à mon mode<i>'+nbDispo()+'</i></button></li>'+
+   '<li><button data-fc="dispo">Disponible à mon mode de retrait<i>'+nbDispo()+'</i></button></li>'+
    '<li><button data-go="collection" data-col="tout">Tout le catalogue<i>'+C.length+'</i></button></li></ul></div>'+
   '<div class="mega__f"><button data-fiche="baba">'+ph('baba','Baba au rhum')+'<span class="t14 dim">Inventé ici en 1730</span><br><span class="g22">Baba au rhum</span></button>'+
    '<button data-go="maison">'+ph('boutique2','La boutique historique')+'<span class="t14 dim">51 rue Montorgueil</span><br><span class="g22">La boutique historique</span></button></div>'+
-  '<div class="mega__ail"><span>Seize adresses à Paris et en proche banlieue</span>'+
+  '<div class="mega__ail"><span>Nos adresses à Paris et en proche banlieue</span>'+
   '<span>Retrait gratuit sous 24 h</span><span>Expédition France et Europe pour les gâteaux de voyage</span></div></div>';
 }
 
@@ -1308,7 +1318,7 @@ function tout(){
 function rech(q){
  var r=document.getElementById('rech-r');q=(q||'').trim().toLowerCase();
  var norm=function(s){return s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();};
- if(!q){r.innerHTML='<p class="t14 dim">Essayez « sans gluten », « 8 personnes », « chocolat », « citron ».</p>';return;}
+ if(!q){r.innerHTML='<p class="t14 dim">Essayez « baba », « 8 personnes », « chocolat », « citron ».</p>';return;}
  var nq=norm(q);
  var l=C.filter(function(c){
   return norm(c.n+' '+c.d+' '+c.c+' '+c.f.map(function(x){return x[0];}).join(' ')+(c.sg?' sans gluten':'')).indexOf(nq)>=0;}).slice(0,6);
