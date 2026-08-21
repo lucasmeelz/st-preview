@@ -1167,7 +1167,7 @@ function vPro(){
 }
 function megaHTML(){
  var s=C.filter(function(c){return c.col==='saison';}),i=C.filter(function(c){return c.col==='historiques';});
- function li(l){return l.map(function(c){return '<li><button data-fiche="'+c.id+'">'+c.n+'<i>dès '+pr(c.min)+'</i></button></li>';}).join('');}
+ function li(l){return l.map(function(c){return '<li><button data-fiche="'+c.id+'">'+c.n+'</button></li>';}).join('');}
  return '<div class="mega__in"><div><h3>Les historiques</h3><ul>'+li(i)+'</ul></div>'+
   '<div><h3>Créations de saison</h3><ul>'+li(s)+'</ul></div>'+
   '<div><h3>Choisir autrement</h3><ul>'+
@@ -1261,9 +1261,23 @@ function ferme(){
  if(MAIN)MAIN.inert=false;
  if(DERNIER&&document.contains(DERNIER)){DERNIER.focus();DERNIER=null;}
 }
-function fermeMega(){
- var m=document.getElementById('mega');m.classList.remove('on');
- ['btn-mega','btn-menu'].forEach(function(i){var b=document.getElementById(i);if(b)b.setAttribute('aria-expanded','false');});
+function etatMega(o){
+ var m=document.getElementById('mega');if(!m)return;
+ m.classList.toggle('on',o);
+ ['btn-mega','btn-menu'].forEach(function(i){var b=document.getElementById(i);if(b)b.setAttribute('aria-expanded',o?'true':'false');});
+}
+function fermeMega(){clearTimeout(ATTENTE);etatMega(false);}
+
+/* ─── le menu s’ouvre au survol, mais seulement là où survoler veut dire quelque chose :
+   au doigt il n’y a pas de survol, le clic reste le seul geste ─── */
+var SURVOL=window.matchMedia('(hover:hover) and (pointer:fine)'),ATTENTE=null;
+function brancheSurvolMega(){
+ var b=document.getElementById('btn-mega'),m=document.getElementById('mega'),t=document.querySelector('.top');
+ if(!b||!m||!t)return;
+ b.addEventListener('mouseenter',function(){if(SURVOL.matches){clearTimeout(ATTENTE);etatMega(true);}});
+ m.addEventListener('mouseenter',function(){clearTimeout(ATTENTE);});
+ /* le panneau est un enfant de l’en-tête : y descendre ne déclenche pas ce départ */
+ t.addEventListener('mouseleave',function(){if(SURVOL.matches)ATTENTE=setTimeout(fermeMega,150);});
 }
 
 /* ═══ modale de service ═══ */
@@ -1370,9 +1384,8 @@ document.addEventListener('click',function(ev){
   setTimeout(function(){majFleches(n.dataset.car);},80);return;}
 
  if(t.id==='btn-mega'||t.id==='btn-menu'){
-  var m=document.getElementById('mega'),o=!m.classList.contains('on');
-  m.classList.toggle('on',o);
-  ['btn-mega','btn-menu'].forEach(function(i){var b=document.getElementById(i);if(b)b.setAttribute('aria-expanded',o?'true':'false');});
+  var m=document.getElementById('mega');
+  clearTimeout(ATTENTE);etatMega(!m.classList.contains('on'));
   return;}
 
   if(D.go){COL=D.col||COL;
@@ -1518,6 +1531,7 @@ function ouverture(){
 
 MAIN=document.querySelector('main');
 try{if(sessionStorage.getItem('dl-ouv')!=='1'&&!RM.matches)document.documentElement.classList.add('ouverture');}catch(e){}
+brancheSurvolMega();
 tout();vMaison();vPro();brancheCar();ouverture();
 })();
 </script>
